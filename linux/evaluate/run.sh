@@ -7,6 +7,9 @@ output_file=result.txt
 
 vocab_file=program/vocab.txt
 label_file=program/label.txt
+if [[ ! -e workspace ]]; then
+    mkdir workspace
+fi
 workspace=workspace/
 
 ./program/preprocess -vocab ${vocab_file} -vector ${vector_file} -label ${label_file} -output ${workspace} -debug 2 -binary 1 -times ${times} -portion ${portion}

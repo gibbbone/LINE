@@ -1,12 +1,13 @@
 #!/bin/sh
-
 g++ -lm -pthread -Ofast -march=native -Wall -funroll-loops -ffast-math -Wno-unused-result line.cpp -o line -lgsl -lm -lgslcblas
 g++ -lm -pthread -Ofast -march=native -Wall -funroll-loops -ffast-math -Wno-unused-result reconstruct.cpp -o reconstruct
 g++ -lm -pthread -Ofast -march=native -Wall -funroll-loops -ffast-math -Wno-unused-result normalize.cpp -o normalize
 g++ -lm -pthread -Ofast -march=native -Wall -funroll-loops -ffast-math -Wno-unused-result concatenate.cpp -o concatenate
 
-wget http://socialnetworks.mpi-sws.mpg.de/data/youtube-links.txt.gz
-gunzip youtube-links.txt.gz
+if [[ ! -e youtube-links.txt ]]; then
+    wget http://socialnetworks.mpi-sws.mpg.de/data/youtube-links.txt.gz
+    gunzip youtube-links.txt.gz
+fi 
 
 python3 preprocess_youtube.py youtube-links.txt net_youtube.txt
 ./reconstruct -train net_youtube.txt -output net_youtube_dense.txt -depth 2 -threshold 1000
